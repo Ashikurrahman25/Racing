@@ -52,8 +52,10 @@ public class NPC_Controller_lufias : MonoBehaviour
     void Emoji()
     {
         emojiPos.LookAt(Camera.main.transform.position);
-        if (behave == 2) emojiPos.GetChild(0).GetComponent<SpriteRenderer>().color = Color.green;
-        else if (behave == 3) emojiPos.GetChild(0).GetComponent<SpriteRenderer>().color = Color.red;
+
+
+        if (behave == 2) emojiPos.GetComponent<Animator>().Play("happyEmoji");
+        else if (behave == 3) emojiPos.GetComponent<Animator>().Play("angryEmoji");
     }
 
     void Idle()
