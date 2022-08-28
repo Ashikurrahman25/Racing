@@ -6,6 +6,9 @@ using Input = InputWrapper;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public GameObject colliderTrigger;
+    public float timeForFallingWater;
+
     public Transform[] xPlayableArea;
     public Transform[] zPlayableArea;
 
@@ -20,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 nextPos;
 
     private VibrateController vibrateController;
+    bool flag = false;
 
     // Start is called before the first frame update
     void Start()
@@ -53,10 +57,20 @@ public class PlayerMovement : MonoBehaviour
             rain.FallRain(); //fall rain     
             MMVibrationManager.Haptic(HapticTypes.SoftImpact);
             if (!rain.rainFallEffect.isPlaying) rain.rainFallEffect.Play(true);
+            if (!flag)
+            {
+                Invoke(nameof(ColliderOn), timeForFallingWater);
+                flag = true;
+            }
         }
         else
         {
             rain.rainFallEffect.Stop(false);
+            if (flag)
+            {
+                Invoke(nameof(ColliderOff), timeForFallingWater);
+                flag = false;
+            }
         }
 
         if (Input.touchCount == 0) return;
@@ -72,5 +86,17 @@ public class PlayerMovement : MonoBehaviour
             rainAudio.StopRainSoundLoop();
             // vibrateController.StopContinuous(); 
         }
+
+        
+    }
+
+    void ColliderOn()
+    {
+        if (!colliderTrigger.activeInHierarchy) colliderTrigger.SetActive(true);
+    }
+
+    void ColliderOff()
+    {
+        colliderTrigger.SetActive(false);
     }
 }

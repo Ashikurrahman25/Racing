@@ -32,4 +32,5 @@ public class Rain : MonoBehaviour
             rainImpactParticle.transform.rotation = Quaternion.LookRotation(hit.normal);
         }
     }
+
 }

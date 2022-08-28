@@ -24,7 +24,7 @@ public class NPCMovements : MonoBehaviour
 
     private void Start()
     {
-        patrolPoints = Controller.self.npcController.roamPoints;
+        //patrolPoints = Controller.self.npcController.roamPoints;
 
         if (navmesh == null)
             navmesh = this.GetComponent<NavMeshAgent>();

@@ -11,7 +11,7 @@ public class NPC_Controller_lufias : MonoBehaviour
     public Transform cloud;
     public Vector3[] runToWherePos;
 
-    public int behave = 0; // 0=idle, 1=explore, 2=happy, 3=angry , 4=turn off
+    public int behave = 1; // 0=idle, 1=explore, 2=happy, 3=angry , 4=turn off
     float t;
     bool flag = false;
     bool isIdle = true;
@@ -68,7 +68,7 @@ public class NPC_Controller_lufias : MonoBehaviour
 
     void Explore()
     {
-        agent.SetDestination(new Vector3(Random.Range(-20,20), 0, Random.Range(-20, 20)));
+        agent.SetDestination(new Vector3(Random.Range(-21,22), 0, Random.Range(10, 36)));
         anim.Play("explore");
         agent.isStopped = false;
         behave = 4;

@@ -5,8 +5,9 @@ using UnityEngine;
 public class NPCController : MonoBehaviour
 {
     public GameObject npcPrefab;
+    public Transform cloudCollider;
     public Transform[] spawnPoints;
-    public Transform[] roamPoints;
+    //public Transform[] roamPoints;
 
     public int npcAmount;
 
@@ -20,7 +21,9 @@ public class NPCController : MonoBehaviour
     {
         for (int i = 0; i < npcAmount; i++)
         {
+            //in future will use object pooling
             GameObject npc = Instantiate(npcPrefab, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity);
+            npc.GetComponent<NPC_Controller_lufias>().cloud = cloudCollider;
         }
     }
 

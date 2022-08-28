@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/CoffeeRomance/CoffeeRomance.unity
     guid: 0fc534a500771cd4bae18b0c3dc627a6
+  - enabled: 1
+    path: Assets/Sandbox/LUfiAS/CoffeeRomance 1.unity
+    guid: 9e17dcdaa88b123419a96db4f2454edf
   m_configObjects: {}
