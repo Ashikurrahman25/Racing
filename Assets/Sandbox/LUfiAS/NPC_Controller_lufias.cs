@@ -11,7 +11,7 @@ public class NPC_Controller_lufias : MonoBehaviour
     public Transform cloud;
     public Vector3[] runToWherePos;
 
-    public int behave = 1; // 0=idle, 1=explore, 2=happy, 3=angry , 4=turn off
+    public int behave = 1; // 0=idle, 1=explore, 2=happy, 3=angry , 4=sad, 5=neutral, 6=turn off
     float t;
     bool flag = false;
     bool isIdle = true;
@@ -47,15 +47,14 @@ public class NPC_Controller_lufias : MonoBehaviour
         else if (behave == 1) Explore();
         else if (behave == 2) Happy();
         else if (behave == 3) Angry();
+        else if (behave == 4) Sad();
+        else if (behave == 5) Neutral();
     }
     
     void Emoji()
     {
         emojiPos.LookAt(Camera.main.transform.position);
 
-
-        if (behave == 2) emojiPos.GetComponent<Animator>().Play("happyEmoji");
-        else if (behave == 3) emojiPos.GetComponent<Animator>().Play("angryEmoji");
     }
 
     void Idle()
@@ -63,7 +62,7 @@ public class NPC_Controller_lufias : MonoBehaviour
         isIdle = true;
         agent.isStopped = true;
         anim.Play("Idle");
-        behave = 4;
+        behave = 6;
     }
 
     void Explore()
@@ -71,7 +70,7 @@ public class NPC_Controller_lufias : MonoBehaviour
         agent.SetDestination(new Vector3(Random.Range(-21,22), 0, Random.Range(10, 36)));
         anim.Play("explore");
         agent.isStopped = false;
-        behave = 4;
+        behave = 6;
     }
 
     void CalculateDistance()
@@ -88,15 +87,36 @@ public class NPC_Controller_lufias : MonoBehaviour
     {
         agent.SetDestination(cloud.position);
         anim.Play("happy");
+        emojiPos.GetComponent<Animator>().Play("happyEmoji");
         agent.isStopped = false;
+        
     }
 
     void Angry()
     {
         agent.SetDestination(runToWherePos[Random.Range(0, runToWherePos.Length)]);
         anim.Play("angry");
+        emojiPos.GetComponent<Animator>().Play("angryEmoji");
         agent.isStopped = false;
-        behave = 4;
+        behave = 6;
+    }
+
+
+
+    void Sad()
+    {
+        agent.SetDestination(runToWherePos[Random.Range(0, runToWherePos.Length)]);
+        anim.Play("angry");
+        emojiPos.GetComponent<Animator>().Play("sadEmoji");
+        agent.isStopped = false;
+        behave = 6;
+    }
+
+    void Neutral()
+    {
+        agent.isStopped = true;
+        anim.Play("Idle");
+        emojiPos.GetComponent<Animator>().Play("neutralEmoji");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -106,7 +126,8 @@ public class NPC_Controller_lufias : MonoBehaviour
             if (other.CompareTag("cloud"))
             {
                 agent.speed = runSpeed;
-                behave = (int)Random.Range(2, 4);                
+                behave = other.GetComponent<SetBehave>().GetBehave();
+                UI_lufias.instance.UpdateUI();
                 flag = true;
             }
         }
